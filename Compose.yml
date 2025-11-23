@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres_container
+    environment:
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=1234
+     - POSTGRES_DB=InnoShopDB
+    volumes:
+     - postgres-data:/var/lib/postgresql/data
+    ports:
+     - "5432:5432"
+
+  user_service:
+    build: ./UserService.API
+    container_name:
+      user_service_container
+    ports:
+     - "8081:8080"
+    depends_on:
+     - postgres
+
+  product_service:
+    build: ./ProductService.API
+    container_name:
+      product_service_container
+    ports:
+     - "8082:8080"
+    depends_on:
+     - postgres
+
+  adminer:
+    image: adminer
+    container_name: adminer_container
+    ports:
+     - "8080:8080"
+    depends_on:
+     - postgres
+
+
+volumes:
+  postgres-data:
