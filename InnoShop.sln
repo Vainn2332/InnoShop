@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.ApplicationLaye
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.CoreLayer", "Services\UserService\UserService.CoreLayer\UserService.CoreLayer.csproj", "{CBFD0894-F5FE-157E-2DAE-902B60BFC3E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.InfrastrucureLayer", "Services\UserService\UserService.InfrastrucureLayer\UserService.InfrastrucureLayer.csproj", "{8E4D4038-8E5B-FC41-03B3-32259CD6DABA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.InfrastructureLayer", "Services\UserService\UserService.InfrastrucureLayer\UserService.InfrastructureLayer.csproj", "{8E4D4038-8E5B-FC41-03B3-32259CD6DABA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductService", "ProductService", "{71FCAAB1-A1CD-4279-8545-673C60A9A82D}"
 EndProject

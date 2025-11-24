@@ -27,7 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\UserService.ApplicationLayer\UserService.ApplicationLayer.csproj" />
     <ProjectReference Include="..\UserService.CoreLayer\UserService.CoreLayer.csproj" />
-    <ProjectReference Include="..\UserService.InfrastrucureLayer\UserService.InfrastrucureLayer.csproj" />
+    <ProjectReference Include="..\UserService.InfrastrucureLayer\UserService.InfrastructureLayer.csproj" />
   </ItemGroup>
 
 </Project>
