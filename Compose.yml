@@ -24,7 +24,7 @@ services:
      - "5433:5432"
 
   user_service:
-    build: ./Services/UserService/UserService.API
+    build: ./Services/UserService
     container_name:
       user_service_container
     ports:
