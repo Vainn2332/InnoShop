@@ -14,12 +14,12 @@ namespace UserService.CoreLayer.Entities
         public string Role { get; set; } = "user";
         public string Password { get; set; }
         public bool HasVerifiedEmail { get; set; } = false;
-        public User(UserRegisterDTO userRegisterDTO)
+       /* public User(UserRegisterDTO userRegisterDTO)
         {
             Name = userRegisterDTO.Name;
             EmailAddress = userRegisterDTO.EmailAddress;
             Password = userRegisterDTO.Password;
-        }
+        }*/
         public User()
         {
 
