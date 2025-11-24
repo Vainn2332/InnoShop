@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using UserService.InfrastrucureLayer.DBcontext;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<UserDBContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDBContext)))
+    );
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
