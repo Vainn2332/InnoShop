@@ -21,6 +21,12 @@ namespace UserService.CoreLayer.Entities
             EmailAddress = userRegisterDTO.EmailAddress;
             Password = userRegisterDTO.Password;
         }
+        public User(PutUserDTO putUserDTO)
+        {
+            Name = putUserDTO.Name;
+            EmailAddress = putUserDTO.EmailAddress;
+            Password = putUserDTO.Password;
+        }
         public User()
         {
 

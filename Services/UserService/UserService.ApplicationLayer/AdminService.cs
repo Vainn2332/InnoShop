@@ -9,9 +9,9 @@ namespace UserService.ApplicationLayer
 {
     public class AdminService : IAdminService
     {
-        private readonly IUserService _userService;
+        private readonly IUsersService _userService;
 
-        public AdminService(IUserService userService)
+        public AdminService(IUsersService userService)
         {
             _userService = userService;
         }
