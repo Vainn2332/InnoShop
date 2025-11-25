@@ -7,7 +7,7 @@ using UserService.CoreLayer.Entities;
 
 namespace UserService.ApplicationLayer.Interfaces
 {
-    public interface IUserService
+    public interface IUsersService
     {
         public Task<IEnumerable<User>> GetAllUsersAsync();
         public Task<User?> GetUserAsync(int id);

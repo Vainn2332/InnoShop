@@ -9,11 +9,11 @@ using UserService.CoreLayer.Entities;
 
 namespace UserService.ApplicationLayer
 {
-    public class UserService:IUserService
+    public class UsersService:IUsersService
     {
         private IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UsersService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
