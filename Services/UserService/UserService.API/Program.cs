@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using UserService.API.Middlewares;
+using UserService.API.Validators;
 using UserService.ApplicationLayer;
 using UserService.ApplicationLayer.Interfaces;
 using UserService.CoreLayer;
@@ -63,6 +64,7 @@ builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IPasswordService, PasswordService>();
 builder.Services.AddTransient<IUsersService,UsersService>();
 
+builder.Services.AddTransient<UserValidator>();
 builder.Services.AddDbContext<UserDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDBContext)))
     );
