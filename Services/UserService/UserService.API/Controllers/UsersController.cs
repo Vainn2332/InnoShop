@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserService.API.Validators;
 using UserService.ApplicationLayer.Interfaces;
 using UserService.CoreLayer.DTOs;
 using UserService.CoreLayer.Entities;
@@ -14,10 +15,12 @@ namespace UserService.API.Controllers
     {
         private IUsersService _userService;
         private IPasswordService _passwordService;
-        public UsersController(IUsersService userService, IPasswordService passwordService)
+        private UserValidator _userValidator;
+        public UsersController(IUsersService userService, IPasswordService passwordService, UserValidator userValidator)
         {
             _userService = userService;
             _passwordService = passwordService;
+            _userValidator = userValidator;
         }
 
         // GET: api/<Users>
@@ -57,17 +60,21 @@ namespace UserService.API.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if (!await _userValidator.ExistsAsync(id))
+            {
+                return BadRequest("Пользователь с таким id не существует!");
+            }
 
-            var target = await _userService.GetUserByEmailAsync(putUserDTO.EmailAddress);
-            if (target != null)
+            var target =await _userService.GetUserByEmailAsync(putUserDTO.EmailAddress);
+            if (target!=null&&target.ID!=id)
             {
                 return BadRequest("данный Email уже занят другим пользователем!");
             }
 
-            User user = new User(putUserDTO)//впринципе же только авторизованные пользователи могут менять свои личные данные
+            User user = new User(putUserDTO)
             {
                 Password = _passwordService.HashPassword(putUserDTO.Password),
-                HasVerifiedEmail = true
+                HasVerifiedEmail = true//впринципе же только авторизованные пользователи могут менять свои личные данные
             };
             await _userService.UpdateUserAsync(id, user);
             return Ok();

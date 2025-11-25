@@ -34,5 +34,14 @@ namespace UserService.API.Validators
             }
             return true;
         }
+        public async Task<bool> ExistsAsync(int id)
+        {
+            var target = await _userService.GetUserAsync(id);
+            if (target == null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
