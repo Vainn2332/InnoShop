@@ -5,7 +5,7 @@ services:
     environment:
      - POSTGRES_USER=postgres
      - POSTGRES_PASSWORD=1234
-     - POSTGRES_DB=users_db
+     - POSTGRES_DB=mydata
     volumes:
      - users_data:/var/lib/postgresql/data
     ports:
@@ -17,7 +17,7 @@ services:
     environment:
      - POSTGRES_USER=postgres
      - POSTGRES_PASSWORD=1234
-     - POSTGRES_DB=products_db
+     - POSTGRES_DB=mydata
     volumes:
      - products_data:/var/lib/postgresql/data
     ports:

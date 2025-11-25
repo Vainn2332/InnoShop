@@ -70,10 +70,7 @@ namespace UserService.ApplicationLayer
             var users = await _userRepository.GetAllAsync();
 
             var target = users.FirstOrDefault(u => u.EmailAddress == email);
-            if (target == null)
-            {
-                throw new ArgumentException("Пользователь с такой почтой не найден!");
-            }
+
             return target;
         }
     }

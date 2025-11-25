@@ -39,7 +39,7 @@ namespace UserService.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!await _userValidator.ExistsAsync(userRegisterDTO.EmailAddress))
+            if (await _userValidator.ExistsAsync(userRegisterDTO.EmailAddress))
             {
                 return BadRequest("Такой пользователь уже существует!");
             }
@@ -68,6 +68,10 @@ namespace UserService.API.Controllers
             }
 
             var target = await _userService.GetUserByEmailAsync(EmailAddress);
+            if (target == null)
+            {
+                return BadRequest("Данный пользователь не найден!");
+            }
             if (target.HasVerifiedEmail == true)
             {
                 return BadRequest("Вы уже подтвердили данную почту!");

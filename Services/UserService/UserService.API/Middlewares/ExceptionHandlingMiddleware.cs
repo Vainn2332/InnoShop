@@ -1,4 +1,6 @@
-﻿namespace UserService.API.Middlewares
+﻿using UserService.CoreLayer.Entities;
+
+namespace UserService.API.Middlewares
 {
     public class ExceptionHandlingMiddleware
     {
