@@ -22,6 +22,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.InfrastructureLayer", "Services\UserService\UserService.InfrastrucureLayer\UserService.InfrastructureLayer.csproj", "{8E4D4038-8E5B-FC41-03B3-32259CD6DABA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductService", "ProductService", "{71FCAAB1-A1CD-4279-8545-673C60A9A82D}"
+	ProjectSection(SolutionItems) = preProject
+		Services\ProductService\Dockerfile = Services\ProductService\Dockerfile
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.API", "Services\ProductService\ProductService.API\ProductService.API.csproj", "{3C23C93D-0F0E-38BF-EA8E-B9A22EC3B77D}"
 EndProject

@@ -33,7 +33,7 @@ services:
      - users_db
 
   product_service:
-    build: ./Services/ProductService/ProductService.API
+    build: ./Services/ProductService
     container_name:
       product_service_container
     ports:
