@@ -43,6 +43,7 @@ namespace UserService.ApplicationLayer
             }
             var payload = parts[1];
 
+            //без этого не работает(скорее всего нужно чтобы добить до нужной длины)
             payload = payload.PadRight(payload.Length + (4 - payload.Length % 4) % 4, '=');
 
             var payloadBytes = Convert.FromBase64String(payload);
