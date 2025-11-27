@@ -65,6 +65,7 @@ builder.Services.AddTransient<IPasswordService, PasswordService>();
 builder.Services.AddTransient<IUsersService,UsersService>();
 
 builder.Services.AddTransient<UserValidator>();
+
 builder.Services.AddDbContext<UserDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDBContext)))
     );
