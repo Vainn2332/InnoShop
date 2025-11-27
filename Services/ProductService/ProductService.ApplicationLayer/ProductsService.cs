@@ -22,9 +22,17 @@ namespace ProductService.ApplicationLayer
             _userService = userService;
         }
 
-        public Task AddProductAsync(Product product)
+        public async Task AddProductAsync(Product product)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Добавление продукта по id={product.ID} пользователю userId={product.UserId}...");
+            var users = await _userService.GetAllUsersAsync();
+            if (!users.Any(u => u.ID == product.UserId))
+            {
+                _logger.LogError($"Добавление продукта по id={product.ID} Прервано:пользователь с userId={product.UserId} не найден!");
+                throw new ArgumentException("Владельца данного продукта не существует!");
+            }
+            await _productRepository.AddAsync(product);
+            _logger.LogInformation($"Добавление продукта по id={product.ID} пользователю userId={product.UserId} упешно завершено!");
         }
 
         public async Task<bool> CheckPossessionAsync(int productId, int userId)
@@ -66,14 +74,11 @@ namespace ProductService.ApplicationLayer
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
-        {
+        {//получаем только не скрытые продукты
             _logger.LogInformation("Получение всех продуктов...");
             var products= await _productRepository.GetAllAsync();
-            var users = await _userService.GetAllUsersAsync();
-            
-            var verifiedUsers=users.Where(u=>u.HasVerifiedEmail==true);
-
             //softDelete
+            var notHiddenProducts = products.Where(p => p.IsHidden == false);
             _logger.LogInformation("Все продукты получены успешно");
             return products;
         }
@@ -85,16 +90,26 @@ namespace ProductService.ApplicationLayer
             if(product is null)
             {
                 _logger.LogWarning($"продукт с id={id} не найден,возвращение null!");
+                return null;
             }
-            else
+            else if (product.IsHidden == true)
+            {
+                _logger.LogWarning($"продукт с id={id} скрыт,возвращение null!");
+                return null;
+            }
+
                 _logger.LogInformation($"продукт с id={id} получен успешно!");
             return product;
         }
 
         public async Task<IEnumerable<Product>> GetProductsOfUserAsync(int userId)
         {
-            //проверить наличие пользователя
-
+            _logger.LogInformation($"Получение всех продуктов пользователя по id={userId}...");
+            var target = await _userService.GetUserAsync(userId);
+            if (target == null)
+            {
+                throw new ArgumentException("пользователь с таким id не найден!");
+            }
             var products = await this.GetAllProductsAsync();
             var productsOfUser=products.Where(p=>p.UserId== userId);
             return productsOfUser;
