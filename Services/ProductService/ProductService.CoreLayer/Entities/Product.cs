@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductService.CoreLayer.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,18 @@ namespace ProductService.CoreLayer.Entities
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; } = 0;
         public DateTime DateOfCreation { get; set; } = DateTime.UtcNow;
-
-        public bool IsHidden { get; set; }
-
-
+        public bool IsHidden { get; set; } = false;
         public int UserId { get; set; } = 0;
+
+        public Product(ProductPostAndPutDTO productDTO)
+        {
+            Name = productDTO.Name;
+            Description = productDTO.Description;
+            Price = productDTO.Price;
+        }
+        public Product()
+        {
+                
+        }
     }
 }
