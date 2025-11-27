@@ -36,8 +36,8 @@ namespace UserService.ApplicationLayer
 
         public JWTInfo ParseJWT(string jwt)
         {
-            var parts = jwt.Split('.');
-            if (parts.Length != 3 || string.IsNullOrEmpty(jwt))
+            var parts = jwt?.Split('.');
+            if (parts?.Length != 3 || string.IsNullOrEmpty(jwt))
             {
                 throw new ArgumentException("Неверный формат jwt токена!");
             }

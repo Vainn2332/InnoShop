@@ -10,8 +10,8 @@ namespace ProductService.ApplicationLayer.Interfaces
 {
     public interface IAuthService
     {
-        public const int tokenExpirationTimeInMinutes = 90;
-
+        public const int tokenExpirationTimeInMinutes = 2;
+        public string GenerateShortLivedJWT();
         public JWTInfo ParseJWT(string jwt);
         public string GetJWTFromHeader(HttpRequest request);
     }
