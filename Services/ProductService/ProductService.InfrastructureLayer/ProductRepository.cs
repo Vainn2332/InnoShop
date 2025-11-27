@@ -44,10 +44,11 @@ namespace ProductService.InfrastructureLayer
         public async Task UpdateAsync(int id, Product newProduct)
         {
             await _context.Products.Where(p => p.ID == id)
-                .ExecuteUpdateAsync(s =>
-                s.SetProperty(p => p.Price, newProduct.Price)
+                .ExecuteUpdateAsync(s =>s
+                .SetProperty(p => p.Price, newProduct.Price)
                 .SetProperty(p => p.Name, newProduct.Name)
-                .SetProperty(p=>p.Description,newProduct.Description));
+                .SetProperty(p=>p.Description,newProduct.Description)
+                .SetProperty(p=>p.IsHidden,newProduct.IsHidden));
         }
     }
 }

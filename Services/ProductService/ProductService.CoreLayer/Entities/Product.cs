@@ -14,6 +14,8 @@ namespace ProductService.CoreLayer.Entities
         public decimal Price { get; set; } = 0;
         public DateTime DateOfCreation { get; set; } = DateTime.UtcNow;
 
+        public bool IsHidden { get; set; }
+
 
         public int UserId { get; set; } = 0;
     }

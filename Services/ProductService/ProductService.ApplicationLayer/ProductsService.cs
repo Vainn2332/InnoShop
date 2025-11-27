@@ -14,10 +14,12 @@ namespace ProductService.ApplicationLayer
     {
         private IProductRepository _productRepository;
         private ILogger<ProductsService> _logger;
-        public ProductsService(IProductRepository productRepository, ILogger<ProductsService> logger)
+        private IUserService _userService;
+        public ProductsService(IProductRepository productRepository, ILogger<ProductsService> logger, IUserService userService)
         {
             _productRepository = productRepository;
             _logger = logger;
+            _userService = userService;
         }
 
         public Task AddProductAsync(Product product)
@@ -67,8 +69,10 @@ namespace ProductService.ApplicationLayer
         {
             _logger.LogInformation("Получение всех продуктов...");
             var products= await _productRepository.GetAllAsync();
-            //получить всех пользователей
-            //
+            var users = await _userService.GetAllUsersAsync();
+            
+            var verifiedUsers=users.Where(u=>u.HasVerifiedEmail==true);
+
             //softDelete
             _logger.LogInformation("Все продукты получены успешно");
             return products;
