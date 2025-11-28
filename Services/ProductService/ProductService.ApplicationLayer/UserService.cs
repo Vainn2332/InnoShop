@@ -30,7 +30,7 @@ namespace ProductService.ApplicationLayer
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
 
             var response = await _httpClient.GetAsync("http://user_service/api/Users");
-
+            
             var users = await response.Content.ReadFromJsonAsync<IEnumerable<User>>();
             return users;
         }
