@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -10,12 +11,14 @@ namespace UserService.ApplicationLayer
 {
     public class AdminService : IAdminService
     {
+        private IAuthService _authService;
         private readonly IUsersService _userService;
         private HttpClient _client;
-        public AdminService(IUsersService userService, HttpClient client)
+        public AdminService(IUsersService userService, HttpClient client, IAuthService authService)
         {
             _userService = userService;
             _client = client;
+            _authService = authService;
         }
 
         public async Task ActivateUserAsync(int id)
@@ -24,7 +27,10 @@ namespace UserService.ApplicationLayer
             user.HasVerifiedEmail = true;
             await _userService.UpdateUserAsync(id, user);
 
-            var json = JsonSerializer.Serialize(id);
+
+            var jwt = _authService.GenerateShortLivedJWT();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+            var json = JsonSerializer.Serialize(id);//это смущает
             var content=new StringContent(json, Encoding.UTF8, "application/json");
             await _client.PostAsync("http://product_service/api/Products/ActivateProductsOfUser", content);
         }
@@ -35,6 +41,8 @@ namespace UserService.ApplicationLayer
             user.HasVerifiedEmail = false;
             await _userService.UpdateUserAsync(id, user);
 
+            var jwt = _authService.GenerateShortLivedJWT();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
             var json = JsonSerializer.Serialize(id);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             await _client.PostAsync("http://product_service/api/Products/DeactivateProductsOfUser", content);

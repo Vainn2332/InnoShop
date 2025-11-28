@@ -20,8 +20,8 @@ namespace UserService.API.Controllers
             _authService = authService;
         }
 
-        [HttpPost("deactivate")]
         [Authorize]
+        [HttpPost("deactivate")]
         public async Task<IActionResult> DeactivateUserAsync(int id)
         {
             if (id < 1)
@@ -47,8 +47,8 @@ namespace UserService.API.Controllers
             return Ok();
         }
 
-        [HttpPost("activate")]
         [Authorize]
+        [HttpPost("activate")]
         public async Task<IActionResult> ActivateUserAsync(int id)
         {
             if (id < 1)

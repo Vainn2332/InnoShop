@@ -5,7 +5,6 @@ namespace ProductService.API.Middlewares
     public class ExceptionHandlerMiddleware
     {
         private RequestDelegate _next;
-
         public ExceptionHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
@@ -30,6 +29,7 @@ namespace ProductService.API.Middlewares
             HttpContext context, string exceptionInfo, string exceptionMessage, int statusCode
             )
         {
+            
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;
 

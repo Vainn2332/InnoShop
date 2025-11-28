@@ -34,6 +34,25 @@ namespace UserService.ApplicationLayer
             return encodedJWT;
         }
 
+        public string GenerateShortLivedJWT()
+        {
+            var claims = new List<Claim>
+            {
+                new Claim ("EmailAdress","API")
+            };     
+
+            var jwt = new JwtSecurityToken(
+                issuer: AuthOptions.ISSUER,
+                audience: AuthOptions.AUDIENCE,
+                claims: claims,
+                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(IAuthService.shortTokenExpirationTimeInMinutes)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
+                );
+            var encodedJWT = new JwtSecurityTokenHandler().WriteToken(jwt);
+            return encodedJWT;
+        }
+
+
         public JWTInfo ParseJWT(string jwt)
         {
             var parts = jwt?.Split('.');
@@ -58,5 +77,7 @@ namespace UserService.ApplicationLayer
             var token = authHeader.ToString().Replace("Bearer ", "");
             return token;
         }
+
+      
     }
 }

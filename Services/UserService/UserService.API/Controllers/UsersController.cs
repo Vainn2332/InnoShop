@@ -39,8 +39,8 @@ namespace UserService.API.Controllers
         }*/
 
         // GET api/<Users>/5
-        [HttpGet("{id}")]
         [Authorize]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _userService.GetUserAsync(id));
