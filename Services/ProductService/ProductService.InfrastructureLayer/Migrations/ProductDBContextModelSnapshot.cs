@@ -52,6 +52,8 @@ namespace ProductService.InfrastructureLayer.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("Name");
+
                     b.ToTable("Products");
                 });
 #pragma warning restore 612, 618

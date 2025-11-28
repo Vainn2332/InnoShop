@@ -23,4 +23,8 @@
     <ProjectReference Include="..\UserService.CoreLayer\UserService.CoreLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

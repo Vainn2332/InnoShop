@@ -20,7 +20,7 @@ namespace ProductService.InfrastructureLayer.DBContext
         public DbSet<Product> Products { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.ApplyConfiguration(new ProductDBConfig());
             base.OnModelCreating(modelBuilder);
         }
     }
