@@ -29,7 +29,7 @@ namespace ProductService.ApplicationLayer
             var jwt = _authService.GenerateShortLivedJWT();
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
 
-            var response = await _httpClient.GetAsync("http://localhost8081/api/Users");
+            var response = await _httpClient.GetAsync("http://user_service/api/Users");
 
             var users = await response.Content.ReadFromJsonAsync<IEnumerable<User>>();
             return users;
@@ -47,7 +47,7 @@ namespace ProductService.ApplicationLayer
             var jwt = _authService.GenerateShortLivedJWT();
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",jwt);
 
-            var response = await _httpClient.GetAsync($"http://localhost:8081/api/Users/{id}");        
+            var response = await _httpClient.GetAsync($"http://user_service/api/Users/{id}");        
             _logger.LogInformation("Запрос на получение пользователя выполнен успешно!");
             return await response.Content.ReadFromJsonAsync<User>();
         }

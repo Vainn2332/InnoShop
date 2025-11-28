@@ -9,6 +9,8 @@ namespace ProductService.CoreLayer
 {
     public interface IProductRepository
     {
+        public  Task ActivateProductsAsync(IEnumerable<Product> products);
+        public Task DeactivateProductsAsync(IEnumerable<Product> products);
         public Task<IEnumerable<Product>> GetAllAsync();
         public Task<Product?> GetAsync(int id);
         public Task AddAsync(Product product);

@@ -100,5 +100,21 @@ namespace ProductService.API.Controllers
             await _productService.DeleteProductAsync(productId);
             return Ok();
         }
+
+        [HttpPost("DeactivateProductsOfUser")]
+        [Authorize]
+        public async Task<IActionResult> DeactivateProductsOfUser(int userId)
+        {
+            await _productService.DeactivateAllProductsOfUserAsync(userId);
+            return Ok();
+        }
+
+        [HttpPost("ActivateProductsOfUser")]
+        [Authorize]
+        public async Task<IActionResult> ActivateProductsOfUser(int userId)
+        {
+            await _productService.ActivateAllProductsOfUserAsync(userId);
+            return Ok();
+        }
     }
 }

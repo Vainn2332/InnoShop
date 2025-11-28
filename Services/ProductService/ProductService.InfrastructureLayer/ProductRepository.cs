@@ -19,6 +19,18 @@ namespace ProductService.InfrastructureLayer
             _context = context;
         }
 
+        public async Task DeactivateProductsAsync(IEnumerable<Product> products)
+        {            
+            await products.AsQueryable()
+                .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.IsHidden, true));
+        }
+        public async Task ActivateProductsAsync(IEnumerable<Product> products)
+        {
+            await products.AsQueryable()
+                .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.IsHidden, false));
+        }
         public async Task AddAsync(Product product)
         {
             await _context.Products.AddAsync(product);

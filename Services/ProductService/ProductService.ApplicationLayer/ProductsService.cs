@@ -22,15 +22,54 @@ namespace ProductService.ApplicationLayer
             _userService = userService;
         }
 
+        public async Task DeactivateAllProductsOfUserAsync(int userId)
+        {
+            _logger.LogInformation($"Деактивация всех продуктов пользователя по id={userId}...");
+            if (userId < 1)
+            {
+                _logger.LogError($"Деактивация не удалась:id пользователя={userId} должно быть >= 1");
+                throw new ArgumentException("некорректный id!");
+            }
+
+            var target = await _userService.GetUserAsync(userId);
+            if(target == null)
+            {
+                _logger.LogError($"Деактивация всех продуктов пользователя по id={userId} прервана: пользователь с таким id не найден!");
+                throw new ArgumentException("Данный пользователь не найден!");
+            }
+
+            var products = await this.GetProductsOfUserAsync(userId);
+
+            await _productRepository.DeactivateProductsAsync(products);
+            _logger.LogInformation($"Деактивация всех продуктов пользователя по id={userId} выполнена успешно!");
+        }
+
+        public async Task ActivateAllProductsOfUserAsync(int userId)
+        {
+            _logger.LogInformation($"Активация всех продуктов пользователя по id={userId}...");
+            if (userId < 1)
+            {
+                _logger.LogError($"Активация не удалась:id пользователя={userId} должно быть >= 1");
+                throw new ArgumentException("некорректный id!");
+            }
+
+            var target = await _userService.GetUserAsync(userId);
+            if (target == null)
+            {
+                _logger.LogError($"Активация всех продуктов пользователя по id={userId} прервана: пользователь с таким id не найден!");
+                throw new ArgumentException("Данный пользователь не найден!");
+            }
+
+            var products = await this.GetProductsOfUserAsync(userId);
+
+            await _productRepository.ActivateProductsAsync(products);
+            _logger.LogInformation($"Активация всех продуктов пользователя по id={userId} выполнена успешно!");
+
+        }
+
         public async Task AddProductAsync(Product product)
         {
             _logger.LogInformation($"Добавление продукта по id={product.ID} пользователю userId={product.UserId}...");
-            var users = await _userService.GetAllUsersAsync();
-            if (!users.Any(u => u.ID == product.UserId))
-            {
-                _logger.LogError($"Добавление продукта по id={product.ID} Прервано:пользователь с userId={product.UserId} не найден!");
-                throw new ArgumentException("Владельца данного продукта не существует!");
-            }
             await _productRepository.AddAsync(product);
             _logger.LogInformation($"Добавление продукта по id={product.ID} пользователю userId={product.UserId} упешно завершено!");
         }
@@ -52,6 +91,8 @@ namespace ProductService.ApplicationLayer
             //не проверяем пользователя на существование т.к. у нас не может быть сиротской связи + нам в данном случае не важно(всё равно false)
             return target.UserId == userId;
         }
+
+      
 
         public async Task DeleteProductAsync(int id)
         {
@@ -86,6 +127,11 @@ namespace ProductService.ApplicationLayer
         public async Task<Product?> GetProductAsync(int id)
         {
             _logger.LogInformation($"Получение продукта по id={id}...");
+            if (id < 1)
+            {
+                _logger.LogError($"Получение продукта по id не удалось:id продукта={id} должно быть >= 1");
+                throw new ArgumentException("некорректный id!");
+            }
             var product = await _productRepository.GetAsync(id);
             if(product is null)
             {
