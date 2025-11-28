@@ -69,6 +69,9 @@ builder.Services.AddTransient<UserValidator>();
 builder.Services.AddDbContext<UserDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDBContext)))
     );
+
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
