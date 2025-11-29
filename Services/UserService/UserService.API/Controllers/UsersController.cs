@@ -36,7 +36,12 @@ namespace UserService.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _userService.GetUserAsync(id));
+            var target = await _userService.GetUserAsync(id);
+            if (target == null) 
+            {
+                return NotFound("Пользователь не найден!");
+            }
+            return Ok(target);
         }
 
         // PUT api/<Users>/5

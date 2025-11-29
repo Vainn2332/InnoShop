@@ -27,7 +27,7 @@ namespace UserService.API.Validators
             }
             return true;
         }
-        public async Task ValidateForgotPasswordAsync(string emailAddress)
+        public async Task ValidateUserForgotPasswordAsync(string emailAddress)
         {
             var target = await _userService.GetUserByEmailAsync(emailAddress);
             if (target == null)

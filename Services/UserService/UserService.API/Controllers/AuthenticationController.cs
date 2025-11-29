@@ -135,11 +135,11 @@ namespace UserService.API.Controllers
             {
                 return BadRequest("Неправильный формат пароля!");
             }
-            await _userValidator.ValidateForgotPasswordAsync(userConfirmPasswordDTO.Password);
+            await _userValidator.ValidateUserForgotPasswordAsync(userConfirmPasswordDTO.EmailAddress);
 
             string? resetPasswordLink = Url.Action("ConfirmNewPassword", "Authentication", new
             {
-                Password = userConfirmPasswordDTO.Password,
+                newPassword = userConfirmPasswordDTO.Password,
                 EmailAddress = userConfirmPasswordDTO.EmailAddress
             }, Request.Scheme);
             await _emailService.SendResetPasswordEmailAsync(userConfirmPasswordDTO.EmailAddress, resetPasswordLink);

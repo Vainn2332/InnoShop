@@ -69,8 +69,13 @@ namespace ProductService.API.Controllers
             var jwt = _authService.GetJWTFromHeader(Request);
             JWTInfo userInfo = _authService.ParseJWT(jwt);//получаем данные пользователя(email и userID) из JWT
 
+            char[] charName = productDTO.Name.ToCharArray();
+            charName[0] = char.ToUpper(productDTO.Name[0]);
+            string modifiedName = charName.ToString();//чтобы поиск и вставка были все с заглавной буквы
+
             Product product = new Product(productDTO)
             {
+                Name=modifiedName,
                 UserId = userInfo.UserId//проверить работоспособность
             };
             await _productService.AddProductAsync(product);
@@ -96,8 +101,13 @@ namespace ProductService.API.Controllers
                 return Unauthorized("Вы не можете изменять чужой продукт!");
             }
 
+            char[] charName = newProductPutDTO.Name.ToCharArray();
+            charName[0] = char.ToUpper(newProductPutDTO.Name[0]);
+            string modifiedName = charName.ToString();//чтобы поиск и вставка были все с заглавной буквы
+
             Product newProduct = new Product(newProductPutDTO)
             {
+                Name=modifiedName,
                 UserId = userInfo.UserId
             };
             await _productService.UpdateProductAsync(id, newProduct);
