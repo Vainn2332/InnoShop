@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductService.ApplicationLayer.Interfaces;
+using ProductService.CoreLayer.DTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -47,25 +48,25 @@ namespace ProductService.API.Controllers
 
         [HttpPost("searchByPrice")]
         [Authorize]
-        public async Task<IActionResult> SearchByPriceAsync(decimal price)
+        public async Task<IActionResult> SearchByPriceAsync(SearchByPriceDTO searchByPriceDTO)
         {
-            if (price <= 0)
+            if (!ModelState.IsValid)
             {
-                BadRequest("Некорректно введена цена!");
+                BadRequest(ModelState);
             }
-            return Ok(await _searchService.SearchByPriceAsync(decimal.Round(price, 2)));
+            return Ok(await _searchService.SearchByPriceAsync(searchByPriceDTO.Price));
         }
 
         [HttpPost("searchByName")]
         [Authorize]
-        public async Task<IActionResult> SearchByNameAsync(string name)
+        public async Task<IActionResult> SearchByNameAsync(SearchByNameDTO searchByNameDTO)
         {
-            if (string.IsNullOrEmpty(name))
+            if (!ModelState.IsValid)
             {
-                BadRequest("Некорректно введена цена!");
+                BadRequest(ModelState);
             }
 
-            return Ok(await _searchService.SearchByNameAsync(name));
+            return Ok(await _searchService.SearchByNameAsync(searchByNameDTO.Name));
         }
     }
 }
