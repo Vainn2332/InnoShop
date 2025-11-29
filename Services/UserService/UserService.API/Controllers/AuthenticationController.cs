@@ -38,7 +38,10 @@ namespace UserService.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            if (!_userValidator.ValidatePassword(userRegisterDTO.Password))
+            {
+                return BadRequest("Неправильный формат пароля!");
+            }
             if (await _userValidator.ExistsAsync(userRegisterDTO.EmailAddress))
             {
                 return BadRequest("Такой пользователь уже существует!");
@@ -90,6 +93,10 @@ namespace UserService.API.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if (!_userValidator.ValidatePassword(userLoginDTO.Password))
+            {
+                return BadRequest("Неправильный формат пароля!");
+            }
 
             var target = await _userService.GetUserByEmailAsync(userLoginDTO.EmailAddress);
             if (target == null)//если не существует
@@ -124,6 +131,10 @@ namespace UserService.API.Controllers
             {
                 return BadRequest("Введённые данные не соответствуют почте!");
             }
+            if (!_userValidator.ValidatePassword(userConfirmPasswordDTO.Password))
+            {
+                return BadRequest("Неправильный формат пароля!");
+            }
             await _userValidator.ValidateForgotPasswordAsync(userConfirmPasswordDTO.Password);
 
             string? resetPasswordLink = Url.Action("ConfirmNewPassword", "Authentication", new
@@ -142,6 +153,11 @@ namespace UserService.API.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if (!_userValidator.ValidatePassword(newPassword))
+            {
+                return BadRequest("Неправильный формат пароля!");
+            }
+
             var target = await _userService.GetUserByEmailAsync(EmailAddress);
             if (target == null)
             {

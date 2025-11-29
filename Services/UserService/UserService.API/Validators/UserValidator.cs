@@ -12,6 +12,21 @@ namespace UserService.API.Validators
             _userService = userService;
         }
 
+        public bool ValidatePassword(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                return false;
+            }
+            foreach (var ch in password)
+            {
+                if (!char.IsLetterOrDigit(ch) || string.IsNullOrEmpty(ch.ToString()))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public async Task ValidateForgotPasswordAsync(string emailAddress)
         {
             var target = await _userService.GetUserByEmailAsync(emailAddress);

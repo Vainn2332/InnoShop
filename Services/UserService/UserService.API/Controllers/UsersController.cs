@@ -31,13 +31,6 @@ namespace UserService.API.Controllers
             return Ok(await _userService.GetAllUsersAsync());
         }
 
-      /*  [HttpGet("UsersWithProducts")]
-        [Authorize]
-        public async Task<IActionResult> GetUsersWithProducts()
-        {
-            return Ok(await _userService.GetAllUsersWithProductsAsync());
-        }*/
-
         // GET api/<Users>/5
         [Authorize]
         [HttpGet("{id}")]
@@ -45,11 +38,6 @@ namespace UserService.API.Controllers
         {
             return Ok(await _userService.GetUserAsync(id));
         }
-        /*[HttpGet("UserWithProducts/{id}")]
-        public async Task<IActionResult> GetWithProducts(int id)
-        {
-            return Ok(await _userService.GetUserWithProductsAsync(id));
-        }*/
 
         // PUT api/<Users>/5
         [HttpPut("{id}")]
@@ -59,6 +47,10 @@ namespace UserService.API.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            if (!_userValidator.ValidatePassword(putUserDTO.Password))
+            {
+                return BadRequest("Неправильный формат пароля!");
             }
             if (!await _userValidator.ExistsAsync(id))
             {

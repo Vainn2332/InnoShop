@@ -121,7 +121,7 @@ namespace ProductService.ApplicationLayer
             //softDelete
             var notHiddenProducts = products.Where(p => p.IsHidden == false);
             _logger.LogInformation("Все продукты получены успешно");
-            return products;
+            return notHiddenProducts;
         }
 
         public async Task<Product?> GetProductAsync(int id)

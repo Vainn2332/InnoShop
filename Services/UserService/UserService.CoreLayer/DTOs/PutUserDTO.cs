@@ -10,11 +10,14 @@ namespace UserService.CoreLayer.DTOs
     public class PutUserDTO
     {
         [Required(ErrorMessage = "Не указано имя пользователя!")]
+        [StringLength(30)]
         public string Name { get; set; } = String.Empty;
+
 
         [Required(ErrorMessage = "Не указан адрес")]
         [EmailAddress]
         public string EmailAddress { get; set; } = String.Empty;
+
 
         [Required(ErrorMessage = "Не указан пароль")]
         public string Password { get; set; }

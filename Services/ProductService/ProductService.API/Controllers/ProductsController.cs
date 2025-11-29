@@ -14,17 +14,22 @@ namespace ProductService.API.Controllers
         // GET: api/<ProductsController>
         private IProductsService _productService;
         private IAuthService _authService;
-        public ProductsController(IProductsService productService, IAuthService authService)
+        private IUserService _userService;
+        public ProductsController(IProductsService productService, IAuthService authService, IUserService userService)
         {
             _productService = productService;
             _authService = authService;
+            _userService = userService;
         }
 
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _productService.GetAllProductsAsync());
+            var products = await _productService.GetAllProductsAsync();
+
+            var targets = products.Select(p => new OutputProductDTO(p));//избавляемся от св-ва isHidden
+            return Ok(targets);
         }
 
         // GET api/<ProductsController>/5
@@ -32,7 +37,23 @@ namespace ProductService.API.Controllers
         [Authorize]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _productService.GetProductAsync(id));
+            var product = await _productService.GetProductAsync(id);
+            if (product == null)
+            {
+                return NotFound("Продукт с таким id не найден!");
+            }
+            var target = new OutputProductDTO(product);
+            return Ok(target);
+        }
+
+        [Authorize]
+        [HttpGet("ProductsOfUser")]
+        public async Task<IActionResult> ShowProductsOfUser(int userId)
+        {
+            var products = await _productService.GetProductsOfUserAsync(userId);
+
+            var targets = products.Select(p => new OutputProductDTO(p));//избавляемся от св-ва isHidden
+            return Ok(targets);
         }
 
         // POST api/<ProductsController>
@@ -92,6 +113,12 @@ namespace ProductService.API.Controllers
             var jwt = _authService.GetJWTFromHeader(Request);
             JWTInfo userInfo = _authService.ParseJWT(jwt);//получаем данные пользователя(email и userID) из JWT
 
+            var user = await _userService.GetUserAsync(userInfo.UserId);
+            if (user.Role == "admin")
+            {
+                await _productService.DeleteProductAsync(productId);//админ имеет право удалять чужие продукты
+                return Ok();
+            }
             //если данный продукт не принадлежит текущему пользователю
             if (!await _productService.CheckPossessionAsync(productId, userInfo.UserId))
             {
@@ -115,6 +142,6 @@ namespace ProductService.API.Controllers
         {
             await _productService.ActivateAllProductsOfUserAsync(userId);
             return Ok();
-        }
+        }       
     }
 }
