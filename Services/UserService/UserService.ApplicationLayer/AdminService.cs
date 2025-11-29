@@ -12,7 +12,7 @@ namespace UserService.ApplicationLayer
     public class AdminService : IAdminService
     {
         private IAuthService _authService;
-        private readonly IUsersService _userService;
+        private IUsersService _userService;
         private HttpClient _client;
         public AdminService(IUsersService userService, HttpClient client, IAuthService authService)
         {
@@ -30,9 +30,10 @@ namespace UserService.ApplicationLayer
 
             var jwt = _authService.GenerateShortLivedJWT();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            var json = JsonSerializer.Serialize(id);//это смущает
+
+            var json = JsonSerializer.Serialize(id);//это смущает возможно из за этого ошибка
             var content=new StringContent(json, Encoding.UTF8, "application/json");
-            await _client.PostAsync("http://product_service/api/Products/ActivateProductsOfUser", content);
+            await _client.PostAsync("http://product_service:8080/api/Products/ActivateProductsOfUser", content);
         }
 
         public async Task DeactivateUserAsync(int id)
@@ -43,9 +44,10 @@ namespace UserService.ApplicationLayer
 
             var jwt = _authService.GenerateShortLivedJWT();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+
             var json = JsonSerializer.Serialize(id);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            await _client.PostAsync("http://product_service/api/Products/DeactivateProductsOfUser", content);
+            await _client.PostAsync("http://product_service:8080/api/Products/DeactivateProductsOfUser", content);
         }
     }
 }

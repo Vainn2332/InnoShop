@@ -103,7 +103,7 @@ namespace ProductService.API.Controllers
 
         [Authorize]
         [HttpPost("DeactivateProductsOfUser")]
-        public async Task<IActionResult> DeactivateProductsOfUser(int userId)
+        public async Task<IActionResult> DeactivateProductsOfUser([FromBody]int userId)
         {
             await _productService.DeactivateAllProductsOfUserAsync(userId);
             return Ok();
@@ -111,7 +111,7 @@ namespace ProductService.API.Controllers
 
         [Authorize]
         [HttpPost("ActivateProductsOfUser")]
-        public async Task<IActionResult> ActivateProductsOfUser(int userId)
+        public async Task<IActionResult> ActivateProductsOfUser([FromBody]int userId)
         {
             await _productService.ActivateAllProductsOfUserAsync(userId);
             return Ok();

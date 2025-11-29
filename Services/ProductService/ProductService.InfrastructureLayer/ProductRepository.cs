@@ -20,14 +20,16 @@ namespace ProductService.InfrastructureLayer
         }
 
         public async Task DeactivateProductsAsync(IEnumerable<Product> products)
-        {            
-            await products.AsQueryable()
+        {
+            var productsId = products.Select(p => p.ID);
+            await _context.Products.Where(p=>productsId.Contains(p.ID))
                 .ExecuteUpdateAsync(s => s
                 .SetProperty(p => p.IsHidden, true));
         }
         public async Task ActivateProductsAsync(IEnumerable<Product> products)
         {
-            await products.AsQueryable()
+            var productsId = products.Select(p => p.ID);
+            await _context.Products.Where(p => productsId.Contains(p.ID))
                 .ExecuteUpdateAsync(s => s
                 .SetProperty(p => p.IsHidden, false));
         }
