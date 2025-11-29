@@ -65,6 +65,7 @@ builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IProductsService,ProductsService>();
 builder.Services.AddTransient<IUserService,UserService>();
+builder.Services.AddTransient<ISearchService,SearchService>();
 
 builder.Services.AddHttpClient();
 

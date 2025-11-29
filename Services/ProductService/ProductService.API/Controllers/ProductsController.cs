@@ -70,8 +70,8 @@ namespace ProductService.API.Controllers
             JWTInfo userInfo = _authService.ParseJWT(jwt);//получаем данные пользователя(email и userID) из JWT
 
             char[] charName = productDTO.Name.ToCharArray();
-            charName[0] = char.ToUpper(productDTO.Name[0]);
-            string modifiedName = charName.ToString();//чтобы поиск и вставка были все с заглавной буквы
+            charName[0] = char.ToUpper(charName[0]);
+            string modifiedName = new string(charName);//чтобы поиск и вставка были все с заглавной буквы
 
             Product product = new Product(productDTO)
             {
@@ -102,8 +102,8 @@ namespace ProductService.API.Controllers
             }
 
             char[] charName = newProductPutDTO.Name.ToCharArray();
-            charName[0] = char.ToUpper(newProductPutDTO.Name[0]);
-            string modifiedName = charName.ToString();//чтобы поиск и вставка были все с заглавной буквы
+            charName[0] = char.ToUpper(charName[0]);
+            string modifiedName = new string(charName);//чтобы поиск и вставка были все с заглавной буквы
 
             Product newProduct = new Product(newProductPutDTO)
             {

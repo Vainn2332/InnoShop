@@ -54,7 +54,12 @@ namespace ProductService.API.Controllers
             {
                 BadRequest(ModelState);
             }
-            return Ok(await _searchService.SearchByPriceAsync(searchByPriceDTO.Price));
+            var target= await _searchService.SearchByPriceAsync(searchByPriceDTO.Price);
+            if (target == null)
+            {
+                return NotFound("Товаров с таким именем не найдено!");
+            }
+            return Ok(target);
         }
 
         [HttpPost("searchByName")]
@@ -66,7 +71,16 @@ namespace ProductService.API.Controllers
                 BadRequest(ModelState);
             }
 
-            return Ok(await _searchService.SearchByNameAsync(searchByNameDTO.Name));
+            char[] charName = searchByNameDTO.Name.ToCharArray();
+            charName[0] = char.ToUpper(charName[0]);
+            string modifiedName = new string(charName);//чтобы поиск и вставка были все с заглавной буквы
+
+            var target = await _searchService.SearchByNameAsync(modifiedName);
+            if (target == null)
+            {
+                return NotFound("Товаров с таким именем не найдено!");
+            }
+            return Ok(target);
         }
     }
 }
