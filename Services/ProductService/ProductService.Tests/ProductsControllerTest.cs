@@ -19,6 +19,7 @@ namespace ProductService.Tests
         [Fact]
         public async Task PostProductReturnsSuccess()
         {
+            //Arrange
             var jwtInfo = new JWTInfo()
             {
                 EmailAddress = "abcd@example.com",
@@ -43,8 +44,10 @@ namespace ProductService.Tests
             var controller = new ProductsController(productServiceMock.Object,
                 authServiceMock.Object, userServiceMock.Object);
 
+            //Act
             var result = await controller.Post(productDTO);
 
+            //Assert
             productServiceMock.Verify(p => p.AddProductAsync(It.IsAny<Product>()  
             ));
             Assert.IsType<OkResult>(result);
