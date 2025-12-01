@@ -32,9 +32,30 @@ namespace UserService.Tests
 
             //Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-
-
         }
+
+
+
+        [Fact]
+        public async Task LoginUserReturnsBadResult()
+        {//почему то не работает с WebApplicationFactory
+            //Arrange
+            UserLoginDTO user = new UserLoginDTO()
+            {
+                EmailAddress = "notExistingUser@gmail.com",
+                Password = "blablabla"
+            };
+            var client = new HttpClient();
+            var json = JsonSerializer.Serialize(user);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            //Act
+            var response = await client.PostAsync("http://localhost:8081/api/Authentication/login", content);
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+
     }
 }
