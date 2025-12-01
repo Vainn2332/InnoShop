@@ -13,7 +13,7 @@ using UserService.CoreLayer.DTOs;
 using Microsoft.AspNetCore.Mvc;
 namespace UserService.Tests
 {
-    public class AuthorizationControllerTest
+    public class AuthControllerTest
     {
         [Fact]
         public async Task LoginUserReturnsSuccess()
