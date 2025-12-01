@@ -17,7 +17,7 @@ namespace UserService.Tests
     {
         [Fact]
         public async Task LoginUserReturnsOkStatusCode()//не будет работать если в бд с пользователями нет такого пользователя
-        {
+        {//почему то не работает с WebApplicationFactory
             //Arrange
             UserLoginDTO user = new UserLoginDTO()
             {

@@ -23,7 +23,7 @@ namespace ProductService.Tests
        
         [Fact]
         public async Task GetRequestReturnsOkStatusCode()
-        {
+        {//почему то не работает с WebApplicationFactory
             //Arrange
             var jwt = GenerateTestShortLivedJWT();
             var httpClient = new HttpClient();
