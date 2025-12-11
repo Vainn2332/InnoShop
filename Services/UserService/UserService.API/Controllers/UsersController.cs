@@ -9,7 +9,7 @@ using UserService.CoreLayer.Entities;
 
 namespace UserService.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {

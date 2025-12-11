@@ -7,7 +7,7 @@ using ProductService.CoreLayer.DTOs;
 
 namespace ProductService.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/search")]
     [ApiController]
     public class SearchController : ControllerBase
     {

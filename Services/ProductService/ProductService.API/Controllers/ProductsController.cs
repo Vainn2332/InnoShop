@@ -7,7 +7,7 @@ using ProductService.CoreLayer.Entities;
 
 namespace ProductService.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/products")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -47,7 +47,7 @@ namespace ProductService.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("ProductsOfUser")]
+        [HttpGet("productsOfUser")]
         public async Task<IActionResult> ShowProductsOfUser(int userId)
         {
             var products = await _productService.GetProductsOfUserAsync(userId);
@@ -139,7 +139,7 @@ namespace ProductService.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("DeactivateProductsOfUser")]
+        [HttpPost("deactivateProductsOfUser")]
         public async Task<IActionResult> DeactivateProductsOfUser([FromBody]int userId)
         {
             await _productService.DeactivateAllProductsOfUserAsync(userId);
@@ -147,7 +147,7 @@ namespace ProductService.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("ActivateProductsOfUser")]
+        [HttpPost("activateProductsOfUser")]
         public async Task<IActionResult> ActivateProductsOfUser([FromBody]int userId)
         {
             await _productService.ActivateAllProductsOfUserAsync(userId);

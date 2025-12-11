@@ -33,7 +33,7 @@ namespace UserService.ApplicationLayer
 
             var json = JsonSerializer.Serialize(id);
             var content=new StringContent(json, Encoding.UTF8, "application/json");
-            await _client.PostAsync("http://product_service:8080/api/Products/ActivateProductsOfUser", content);
+            await _client.PostAsync("http://product_service:8080/api/products/activateProductsOfUser", content);
         }
 
         public async Task DeactivateUserAsync(int id)
@@ -47,7 +47,7 @@ namespace UserService.ApplicationLayer
 
             var json = JsonSerializer.Serialize(id);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            await _client.PostAsync("http://product_service:8080/api/Products/DeactivateProductsOfUser", content);
+            await _client.PostAsync("http://product_service:8080/api/products/deactivateProductsOfUser", content);
         }
     }
 }

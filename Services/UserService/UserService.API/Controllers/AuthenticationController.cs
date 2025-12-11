@@ -9,7 +9,7 @@ using UserService.CoreLayer.Entities;
 
 namespace UserService.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/authentication")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -62,7 +62,7 @@ namespace UserService.API.Controllers
             return Ok("Подтвердите почту для регистрации");
         }
 
-        [HttpGet("ConfirmRegistration")]
+        [HttpGet("confirmRegistration")]
         public async Task<IActionResult> ConfirmRegistration([EmailAddress] string EmailAddress)
         {//как будто небезопасно
             if (string.IsNullOrEmpty(EmailAddress))
@@ -124,7 +124,7 @@ namespace UserService.API.Controllers
         }
 
 
-        [HttpPost("ForgotPassword")]
+        [HttpPost("forgotPassword")]
         public async Task<IActionResult> ForgotPassword([FromBody] UserConfirmPasswordDTO userConfirmPasswordDTO)
         {
             if (!ModelState.IsValid)
@@ -146,7 +146,7 @@ namespace UserService.API.Controllers
             return Ok("инструкция по сбросу пароля отправлена на почту");
         }
 
-        [HttpGet("ConfirmNewPassword")]
+        [HttpGet("confirmNewPassword")]
         public async Task<IActionResult> ConfirmNewPassword(string newPassword, [EmailAddress] string EmailAddress)
         {//тоже как будто небезопасно
             if (!ModelState.IsValid)
