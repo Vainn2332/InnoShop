@@ -14,8 +14,8 @@ namespace UserService.ApplicationLayer.Interfaces
 {
     public interface IAuthService
     {
-        public const int tokenExpirationTimeInMinutes = 90;
-        public const int shortTokenExpirationTimeInMinutes = 5;
+        protected const int tokenExpirationTimeInMinutes = 90;
+        protected const int shortTokenExpirationTimeInMinutes = 5;
         public string GenerateShortLivedJWT();
         
         public string GenerateJWT(int userId, string userEmail);

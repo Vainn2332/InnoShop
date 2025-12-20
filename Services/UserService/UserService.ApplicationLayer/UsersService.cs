@@ -19,16 +19,6 @@ namespace UserService.ApplicationLayer
         }
 
 
-       /* public async Task<IEnumerable<User>> GetAllUsersWithProductsAsync()
-        {
-            return await _userRepository.GetAllWithProductsAsync();
-        }*/ 
-        /* public async Task<User?> GetUserWithProductsAsync(int id)
-        {
-            if (id < 1)
-                throw new ArgumentException("id не может быть <1");
-            return await _userRepository.GetWithProductsAsync(id);
-        }*/
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _userRepository.GetAllAsync();
