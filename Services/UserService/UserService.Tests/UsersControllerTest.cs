@@ -19,11 +19,12 @@ namespace UserService.Tests
         public async Task GetUserReturnsSuccess()
         {
             int testUserId = 2;
+            var authServiceMock=new Mock<IAuthService>();
             var userServiceMock = new Mock<IUsersService>();//создали заглушку на данный интерфейс
             userServiceMock.Setup(p => p.GetUserAsync(testUserId)).ReturnsAsync(GetUsers().FirstOrDefault(u => u.ID == testUserId));
             var passwordServiceMock = new Mock<IPasswordService>();
             var userValidator = new UserValidator(userServiceMock.Object);
-            var usersController = new UsersController(userServiceMock.Object,passwordServiceMock.Object,userValidator);
+            var usersController = new UsersController(userServiceMock.Object,passwordServiceMock.Object,userValidator,authServiceMock.Object);
 
             var result =await usersController.Get(testUserId);//act
 
@@ -35,10 +36,11 @@ namespace UserService.Tests
         public async Task GetUserReturnsNullWithBadRequest()
         {
             var userServiceMock = new Mock<IUsersService>();
+            var authServiceMock = new Mock<IAuthService>();
             userServiceMock.Setup(p => p.GetUserAsync(1)).ReturnsAsync((User)null);
             var passwordServiceMock = new Mock<IPasswordService>();
             var userValidator = new UserValidator(userServiceMock.Object);
-            var usersController = new UsersController(userServiceMock.Object, passwordServiceMock.Object, userValidator);
+            var usersController = new UsersController(userServiceMock.Object, passwordServiceMock.Object, userValidator, authServiceMock.Object);
 
             var result = await usersController.Get(1);
 
