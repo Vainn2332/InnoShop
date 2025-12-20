@@ -16,11 +16,13 @@ namespace UserService.API.Controllers
         private IUsersService _userService;
         private IPasswordService _passwordService;
         private UserValidator _userValidator;
-        public UsersController(IUsersService userService, IPasswordService passwordService, UserValidator userValidator)
+        private IAuthService _authService;
+        public UsersController(IUsersService userService, IPasswordService passwordService, UserValidator userValidator, IAuthService authService)
         {
             _userService = userService;
             _passwordService = passwordService;
             _userValidator = userValidator;
+            _authService = authService;
         }
 
         // GET: api/<Users>
@@ -68,6 +70,14 @@ namespace UserService.API.Controllers
                 return BadRequest("данный Email уже занят другим пользователем!");
             }
 
+            var jwt = _authService.GetJWTFromHeader(Request);
+            JWTInfo jwtInfo=_authService.ParseJWT(jwt);
+
+            if (jwtInfo.UserId != target.ID)
+            {
+                return BadRequest("Вы не можете изменять параметры чужого пользователя");
+            }
+
             User user = new User(putUserDTO)
             {
                 Password = _passwordService.HashPassword(putUserDTO.Password),
@@ -77,11 +87,21 @@ namespace UserService.API.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]/////////////////////////////////////////
+        [HttpDelete("{id}")]
         [Authorize]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var jwt = _authService.GetJWTFromHeader(Request);
+            JWTInfo jwtInfo = _authService.ParseJWT(jwt);
+
+            var target = await _userService.GetUserAsync(id);
+            if (jwtInfo.UserId != target.ID)
+            {
+                return BadRequest("Вы не можете изменять параметры чужого пользователя");
+            }
+
             await _userService.DeleteUserAsync(id);
+            return Ok();
         }
     }
 }
