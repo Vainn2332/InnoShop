@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UserService.CoreLayer.Entities;
 
 namespace UserService.InfrastrucureLayer.DBcontext
-{
+{//
     public class UserDBContext :DbContext
     {
         private readonly DbContextOptions<UserDBContext> _dbContextOptions;
